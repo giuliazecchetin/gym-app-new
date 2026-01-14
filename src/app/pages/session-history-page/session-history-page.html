@@ -1,0 +1,83 @@
+<div class="history-page-container content">
+  <div class="history-header">
+    <h2>Cronologia Sessioni di Allenamento</h2>
+    <p class="subtitle">Rivedi tutte le tue sessioni completate</p>
+  </div>
+
+  @if (sessions.length === 0) {
+    <div class="empty-state">
+      <p>Nessuna sessione salvata ancora.</p>
+      <p>Inizia creando una nuova sessione! 💪</p>
+    </div>
+  } @else {
+    <div class="sessions-list">
+      @for (session of sessions; track session.id; let i = $index) {
+        <div class="session-card">
+          <div class="session-header-card" (click)="toggleSessionDetails(i)">
+            <div class="session-main-info">
+              <h3 class="session-name">{{ session.name }}</h3>
+              <span class="expand-icon" [class.expanded]="expandedSessions[i]">▼</span>
+            </div>
+            <div class="session-meta">
+              <span class="session-date">{{ session.date | date: 'dd/MM/yyyy HH:mm' }}</span>
+              <span class="exercise-badge">{{ session.exercises.length }} esercizi</span>
+            </div>
+          </div>
+
+          @if (expandedSessions[i]) {
+            <div class="session-details">
+              <div class="exercises-details">
+                <h4>Esercizi nella Sessione:</h4>
+                @for (exercise of session.exercises; track exercise.exerciseId) {
+                  <div class="exercise-detail-card">
+                    <div class="exercise-detail-header">
+                      <div class="exercise-detail-info">
+                        <h5>{{ exercise.exerciseName }}</h5>
+                        <p class="muscle-group">{{ exercise.muscleGroup }}</p>
+                      </div>
+                    </div>
+                    <div class="exercise-detail-data">
+                      <div class="data-item">
+                        <span class="label">Serie:</span>
+                        <span class="value">{{ exercise.sets }}</span>
+                      </div>
+                      <div class="data-item">
+                        <span class="label">Ripetizioni:</span>
+                        <span class="value">{{ exercise.reps }}</span>
+                      </div>
+                      @if (exercise.weight) {
+                        <div class="data-item">
+                          <span class="label">Peso:</span>
+                          <span class="value">{{ exercise.weight }} kg</span>
+                        </div>
+                      }
+                      @if (exercise.notes) {
+                        <div class="data-item notes">
+                          <span class="label">Note:</span>
+                          <span class="value">{{ exercise.notes }}</span>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+
+              <div class="session-actions">
+                <p-button icon="pi pi-pencil" label="Modifica" severity="help" 
+                          (click)="editSession(session)"></p-button>
+                <p-button icon="pi pi-copy" label="Duplica" severity="help" 
+                          (click)="duplicateSession(session)"></p-button>
+                <p-button icon="pi pi-trash" label="Elimina" severity="danger" 
+                          (click)="deleteSession(session.id)"></p-button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <div class="back-button-container">
+    <p-button icon="pi pi-arrow-left" label="Torna alla Home" severity="secondary" [text]="true" (click)="goBack()"></p-button>
+  </div>
+</div>

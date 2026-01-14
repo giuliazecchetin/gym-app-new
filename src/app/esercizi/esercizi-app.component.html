@@ -1,0 +1,52 @@
+<app-toast></app-toast>
+
+<main class="main">
+    @if (!showSessionPage && !showHistoryPage) {
+      <app-homepage-workout 
+        (insertExercise)="insertExercise()"
+        (createSession)="openSessionPage()"
+        (viewHistory)="openHistoryPage()">
+      </app-homepage-workout>
+
+      <app-exercises-page 
+        [exercises]="exercises"
+        [selectedMuscleGroup]="selectedMuscleGroup"
+        (selectedMuscleGroupChange)="selectedMuscleGroup = $any($event)"
+        (edit)="editExercise($any($event))"
+        (delete)="deleteExercise($any($event))">
+      </app-exercises-page>
+    } @else if (showSessionPage) {
+      <app-workout-session-page
+        [availableExercises]="exercises"
+        [savedSessions]="sessions"
+        [sessionToEdit]="sessionToEdit"
+        (sessionSaved)="onSessionSaved($event)"
+        (sessionDeleted)="onSessionDeleted($event)"
+        (sessionLoaded)="onSessionLoaded($event)"
+        (cancelled)="closeSessionPage()">
+      </app-workout-session-page>
+
+      <div class="back-button-container">
+        <p-button icon="pi pi-arrow-left" label="Torna agli Esercizi" severity="secondary" [text]="true" (click)="closeSessionPage()"></p-button>
+      </div>
+    } @else if (showHistoryPage) {
+      <app-session-history-page
+        [sessions]="sessions"
+        (sessionDeleted)="onHistorySessionDeleted($event)"
+        (sessionDuplicated)="onHistorySessionDuplicated($event)"
+        (sessionEdited)="onHistorySessionEdited($event)"
+        (backClicked)="closeHistoryPage()">
+      </app-session-history-page>
+    }
+
+    <app-exercise-form-page
+      [isOpen]="showModal"
+      [isEdit]="!!editingId"
+      [formData]="formData"
+      [muscleGroups]="uniqueMuscleGroups"
+      [showConfirm]="showConfirm"
+      [confirmMessage]="confirmMessage"
+      (save)="saveExercise($any($event))"
+      (close)="closeModal()">
+    </app-exercise-form-page>
+</main>

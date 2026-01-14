@@ -1,0 +1,107 @@
+<div class="history-page-container content">
+  <div class="history-header">
+    <h2>Cronologia di {{ selectedExercise?.name }}</h2>
+    <p class="subtitle">{{ selectedExercise?.muscleGroup }} | Visualizza tutte le esecuzioni</p>
+  </div>
+
+  @if (exerciseHistory.length === 0) {
+    <div class="empty-state">
+      <p>Nessuna esecuzione registrata ancora.</p>
+      <p>Inizia a creare sessioni con questo esercizio! </p>
+    </div>
+  } @else {
+    <div class="stats-summary">
+      <div class="stat-card">
+        <span class="stat-label">Esecuzioni Totali</span>
+        <span class="stat-value">{{ exerciseHistory.length }}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Serie Medie</span>
+        <span class="stat-value">{{ getAverageSets() }}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Ripetizioni Medie</span>
+        <span class="stat-value">{{ getAverageReps() }}</span>
+      </div>
+      @if (hasWeight()) {
+        <div class="stat-card">
+          <span class="stat-label">Peso Massimo</span>
+          <span class="stat-value">{{ getMaxWeight() }} kg</span>
+        </div>
+      }
+    </div>
+
+    <div class="charts-section">
+      <h3>Grafici Andamento</h3>
+      <div class="charts-container">
+        <div class="chart-wrapper">
+          @if (chartDataSets) {
+            <p-chart type="line" [data]="chartDataSets" [options]="chartOptions"></p-chart>
+          }
+        </div>
+        <div class="chart-wrapper">
+          @if (chartDataWeight) {
+            <p-chart type="line" [data]="chartDataWeight" [options]="chartOptions"></p-chart>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="table-section">
+      <h3>Dettaglio Esecuzioni</h3>
+      <p-table [value]="exerciseHistory" [paginator]="true" [rows]="10" responsiveLayout="scroll" 
+               styleClass="p-datatable-sm p-datatable-striped"
+               [globalFilterFields]="['sessionName','sessionDate']">
+        <ng-template #header>
+          <tr>
+            <th pSortableColumn="#" style="width: 60px">
+              # <p-sortIcon field="sessionDate"></p-sortIcon>
+            </th>
+            <th pSortableColumn="sessionName" style="width: 150px">
+              Sessione <p-sortIcon field="sessionName"></p-sortIcon>
+            </th>
+            <th pSortableColumn="sessionDate" style="width: 120px">
+              Data <p-sortIcon field="sessionDate"></p-sortIcon>
+            </th>
+            <th pSortableColumn="sets" style="width: 80px">
+              Serie <p-sortIcon field="sets"></p-sortIcon>
+            </th>
+            <th pSortableColumn="reps" style="width: 100px">
+              Ripetizioni <p-sortIcon field="reps"></p-sortIcon>
+            </th>
+            @if (hasWeight()) {
+              <th pSortableColumn="weight" style="width: 100px">
+                Peso (kg) <p-sortIcon field="weight"></p-sortIcon>
+              </th>
+            }
+            <th style="width: 200px">Note</th>
+          </tr>
+        </ng-template>
+        <ng-template #body let-execution let-rowIndex="rowIndex">
+          <tr>
+            <td class="execution-index">#{{ exerciseHistory.length - rowIndex }}</td>
+            <td>{{ execution.sessionName }}</td>
+            <td>{{ execution.sessionDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td class="value-cell">{{ execution.sets }}</td>
+            <td class="value-cell">{{ execution.reps }}</td>
+            @if (hasWeight()) {
+              <td class="value-cell">
+                @if (execution.weight) {
+                  {{ execution.weight }}
+                } @else {
+                  -
+                }
+              </td>
+            }
+            <td class="notes-cell">{{ execution.notes || '-' }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  }
+
+  <div class="back-button-container">
+    <p-button icon="pi pi-arrow-left" label="Torna agli Esercizi" 
+              (click)="goBack()" severity="secondary" [text]="true"></p-button>
+  </div>
+</div>

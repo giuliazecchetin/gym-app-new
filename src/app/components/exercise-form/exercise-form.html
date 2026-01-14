@@ -1,0 +1,56 @@
+@if (isOpen) {
+<div class="modal-overlay" (click)="close.emit()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ isEdit ? ' MODIFICA ESERCIZIO' : ' NUOVO ESERCIZIO' }}</h2>
+      <p-button icon="pi pi-times" severity="secondary" [rounded]="true" [text]="true" (click)="close.emit()"></p-button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="name">Nome Esercizio *</label>
+        <input type="text" id="name" [(ngModel)]="formData.name" placeholder="es. Panca piana" />
+      </div>
+
+      <div class="form-group">
+        <label for="muscleGroup">Gruppo Muscolare *</label>
+        <input 
+          type="text" 
+          id="muscleGroup" 
+          [(ngModel)]="formData.muscleGroup" 
+          placeholder="es. petto, schiena..." 
+          list="muscleGroupsList"
+        />
+        <datalist id="muscleGroupsList">
+          @for (group of muscleGroups; track group) {
+            <option [value]="group">{{ group }}</option>
+          }
+        </datalist>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="sets">Serie</label>
+          <input type="number" id="sets" [(ngModel)]="formData.sets" min="1" />
+        </div>
+        <div class="form-group">
+          <label for="reps">Ripetizioni</label>
+          <input type="number" id="reps" [(ngModel)]="formData.reps" min="1" />
+        </div>
+        <div class="form-group">
+          <label for="weightKg">Peso (kg)</label>
+          <input type="number" id="weightKg" [(ngModel)]="formData.weightKg" min="0" step="0.5" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Note</label>
+        <textarea id="notes" [(ngModel)]="formData.notes" placeholder="Aggiungi note..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p-button label="ANNULLA" severity="secondary" (click)="close.emit()"></p-button>
+      <p-button [label]="isEdit ? 'SALVA MODIFICHE' : 'AGGIUNGI ESERCIZIO'" severity="help" (click)="save.emit(formData)"></p-button>
+    </div>
+  </div>
+</div>
+}

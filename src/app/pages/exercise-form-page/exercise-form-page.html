@@ -1,0 +1,13 @@
+<app-exercise-form
+  [isOpen]="isOpen"
+  [isEdit]="isEdit"
+  [formData]="formData"
+  [muscleGroups]="muscleGroups"
+  (save)="onSave($event)"
+  (close)="onClose()">
+</app-exercise-form>
+
+<app-confirm-message
+  [show]="showConfirm"
+  [message]="confirmMessage">
+</app-confirm-message>

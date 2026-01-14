@@ -1,0 +1,33 @@
+.navbar-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+.logo-text {
+  background: linear-gradient(135deg, #9c27b0 0%, #e91e63 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:host ::ng-deep .p-menubar {
+  border-radius: 0;
+  border: none;
+  padding: 1rem 2rem;
+}
+
+:host ::ng-deep .p-menubar-root-list > .p-menuitem > .p-menuitem-link {
+  font-weight: 500;
+  font-size: 1rem;
+}

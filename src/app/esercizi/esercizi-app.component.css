@@ -1,0 +1,20 @@
+.main {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.back-button-container {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  padding-bottom: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main {
+    padding: 1rem;
+  }
+}

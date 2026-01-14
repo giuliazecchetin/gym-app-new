@@ -1,0 +1,225 @@
+.history-page-container {
+  margin: 0 auto;
+  background: transparent;
+  border: none;
+  padding: 25px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: flex-start;
+  animation: slideIn 0.5s ease-out;
+}
+
+.history-header {
+  width: 100%;
+  text-align: center;
+}
+
+.history-header h2 {
+  color: #333;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 14px;
+  margin: 8px 0 0 0;
+}
+
+.empty-state {
+  width: 100%;
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.empty-state p {
+  font-size: 16px;
+  margin: 8px 0;
+}
+
+.sessions-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.session-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.session-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.session-header-card {
+  padding: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  background-color: #f8f9fa;
+  transition: all 0.2s ease;
+}
+
+.session-header-card:hover {
+  background-color: #f0f1f3;
+}
+
+.session-main-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.session-name {
+  color: #333;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.expand-icon {
+  color: #667eea;
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.expand-icon.expanded {
+  transform: rotate(180deg);
+}
+
+.session-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.session-date {
+  color: #666;
+  font-size: 13px;
+}
+
+.exercise-badge {
+  background-color: #667eea;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.session-details {
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.exercises-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.exercises-details h4 {
+  color: #333;
+  margin: 0;
+  font-size: 14px;
+}
+
+.exercise-detail-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.exercise-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exercise-detail-info h5 {
+  color: #333;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.muscle-group {
+  color: #666;
+  margin: 4px 0 0 0;
+  font-size: 12px;
+}
+
+.exercise-detail-data {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 8px;
+}
+
+.data-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.data-item.notes {
+  grid-column: 1 / -1;
+}
+
+.data-item .label {
+  color: #666;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.data-item .value {
+  color: #333;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.session-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.back-button-container {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

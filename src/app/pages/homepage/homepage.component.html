@@ -1,0 +1,47 @@
+<div class="homepage">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Gestisci i Tuoi Allenamenti,<br>Monitora i Tuoi Progressi</h1>
+      <p class="hero-subtitle">
+        Organizza i tuoi esercizi, crea sessioni di workout personalizzate e traccia i tuoi miglioramenti nel tempo
+      </p>
+      <div class="hero-buttons">
+        <p-button label="Vai agli Esercizi" icon="pi pi-bolt" size="large" styleClass="p-button-help" (click)="goToExercises()"></p-button>
+        <p-button label="Scopri le Funzionalità" icon="pi pi-arrow-down" size="large" styleClass="p-button-outlined" [outlined]="true" (click)="scrollToFeatures()"></p-button>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="exercise.png" alt="Gym" style="max-width: 60%; height: auto; border-radius: 10px;">
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <h2 class="section-title">Funzionalità Principali</h2>
+    <div class="features-grid">
+      @for (feature of features; track feature.title) {
+      <p-card class="feature-card">
+        <ng-template pTemplate="header">
+          <div class="feature-icon">
+            <i [class]="feature.icon"></i>
+          </div>
+        </ng-template>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
+      </p-card>
+      }
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="cta">
+    <div class="cta-content">
+      <h2>Inizia Subito il Tuo Percorso</h2>
+      <p>Gestisci i tuoi allenamenti in modo intelligente e raggiungi i tuoi obiettivi fitness</p>
+      <p-button label="Crea il Tuo Primo Esercizio" icon="pi pi-plus" size="large" styleClass="p-button-help" (click)="goToExercises()"></p-button>
+    </div>
+  </section>
+
+
+</div>

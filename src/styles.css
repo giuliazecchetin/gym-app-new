@@ -1,0 +1,21 @@
+/* Stili globali */
+@import 'primeicons/primeicons.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+}
+
+:root {
+  --primary-color: #667eea;
+  --secondary-color: #764ba2;
+}
+

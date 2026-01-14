@@ -129,6 +129,7 @@ export class EserciziAppComponent implements OnInit {
 
   ngOnInit() {
     this.loadExercises();
+    this.loadSessions();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 

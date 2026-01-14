@@ -58,6 +58,10 @@ export class HomepageComponent {
     this.router.navigate(['/esercizi']);
   }
 
+  goToProgress() {
+    this.router.navigate(['/progressi']);
+  }
+
   scrollToFeatures() {
     const featuresSection = document.querySelector('.features');
     featuresSection?.scrollIntoView({ behavior: 'smooth' });

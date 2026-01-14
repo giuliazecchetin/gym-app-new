@@ -1,0 +1,288 @@
+<div class="progress-page">
+  <div class="page-header">
+    <div class="header-content">
+      <p-button 
+        icon="pi pi-arrow-left" 
+        styleClass="p-button-text"
+        (click)="goBack()">
+      </p-button>
+      <div>
+        <h1>Progressi Esercizi</h1>
+        <p class="subtitle">Analizza l'evoluzione dei tuoi allenamenti nel tempo</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-content">
+    <!-- Selezione Esercizio -->
+    <p-card class="selector-card">
+      <div class="exercise-selector">
+        <label for="exercise-select">Seleziona Esercizio:</label>
+        <p-select 
+          id="exercise-select"
+          [options]="exercises" 
+          [(ngModel)]="selectedExercise"
+          optionLabel="name"
+          placeholder="Scegli un esercizio"
+          (onChange)="onExerciseChange()"
+          [style]="{'width': '100%'}">
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="selectedExercise">
+              <strong>{{ selectedExercise.name }}</strong>
+              <span class="muscle-group"> - {{ selectedExercise.muscleGroup }}</span>
+            </div>
+          </ng-template>
+          <ng-template let-exercise pTemplate="item">
+            <div>
+              <strong>{{ exercise.name }}</strong>
+              <span class="muscle-group"> - {{ exercise.muscleGroup }}</span>
+            </div>
+          </ng-template>
+        </p-select>
+      </div>
+    </p-card>
+
+    @if (progressData && progressData.records.length > 0) {
+      <!-- Statistiche -->
+      @if (getStats(); as stats) {
+        <div class="stats-grid">
+          <p-card class="stat-card">
+            <div class="stat-icon sessions">
+              <i class="pi pi-calendar"></i>
+            </div>
+            <div class="stat-info">
+              <h3>{{ stats.totalRecords }}</h3>
+              <p>Registrazioni Totali</p>
+            </div>
+          </p-card>
+
+          <p-card class="stat-card">
+            <div class="stat-icon weight">
+              <i class="pi pi-chart-line"></i>
+            </div>
+            <div class="stat-info">
+              <h3>{{ stats.currentWeight }} kg</h3>
+              <p>Peso Attuale</p>
+              @if (stats.weightIncrease !== 0) {
+                <span class="change" [class.positive]="stats.weightIncrease > 0" [class.negative]="stats.weightIncrease < 0">
+                  <i [class]="stats.weightIncrease > 0 ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
+                  {{ stats.weightIncrease > 0 ? '+' : '' }}{{ stats.weightIncrease }} kg ({{ stats.weightIncreasePercent }}%)
+                </span>
+              }
+            </div>
+          </p-card>
+
+          <p-card class="stat-card">
+            <div class="stat-icon volume">
+              <i class="pi pi-chart-bar"></i>
+            </div>
+            <div class="stat-info">
+              <h3>{{ stats.currentVolume }} kg</h3>
+              <p>Volume Attuale</p>
+              @if (stats.volumeIncrease !== 0) {
+                <span class="change" [class.positive]="stats.volumeIncrease > 0" [class.negative]="stats.volumeIncrease < 0">
+                  <i [class]="stats.volumeIncrease > 0 ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
+                  {{ stats.volumeIncrease > 0 ? '+' : '' }}{{ stats.volumeIncrease }} kg ({{ stats.volumeIncreasePercent }}%)
+                </span>
+              }
+            </div>
+          </p-card>
+        </div>
+      }
+
+      <!-- Pulsante Aggiungi Record -->
+      <div class="action-bar">
+        <p-button 
+          label="Aggiungi Record" 
+          icon="pi pi-plus"
+          styleClass="p-button-help"
+          (click)="openAddModal()">
+        </p-button>
+      </div>
+
+      <!-- Tabella Records -->
+      @if (progressData && progressData.records.length > 0) {
+        <p-card class="records-card">
+          <ng-template pTemplate="header">
+            <h3>Storico Registrazioni</h3>
+          </ng-template>
+          <div class="records-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Peso (kg)</th>
+                  <th>Serie</th>
+                  <th>Ripetizioni</th>
+                  <th>Volume (kg)</th>
+                  <th>Note</th>
+                  <th>Azioni</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (record of progressData.records; track record.id) {
+                  <tr>
+                    <td>{{ record.date | date: 'dd/MM/yyyy' }}</td>
+                    <td class="weight">{{ record.weight }}</td>
+                    <td>{{ record.sets }}</td>
+                    <td>{{ record.reps }}</td>
+                    <td>{{ record.weight * record.sets * record.reps }}</td>
+                    <td class="notes">{{ record.notes || '-' }}</td>
+                    <td class="actions">
+                      <p-button 
+                        icon="pi pi-pencil" 
+                        styleClass="p-button-text p-button-sm"
+                        (click)="openEditModal(record)">
+                      </p-button>
+                      <p-button 
+                        icon="pi pi-trash" 
+                        styleClass="p-button-text p-button-danger p-button-sm"
+                        (click)="deleteRecord(record)">
+                      </p-button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </p-card>
+      }
+
+      <!-- Grafici -->
+      <div class="charts-grid">
+        <p-card class="chart-card">
+          <div class="chart-container">
+            <canvas #weightChart></canvas>
+          </div>
+        </p-card>
+
+        <p-card class="chart-card">
+          <div class="chart-container">
+            <canvas #volumeChart></canvas>
+          </div>
+        </p-card>
+
+        <p-card class="chart-card full-width">
+          <div class="chart-container">
+            <canvas #repsChart></canvas>
+          </div>
+        </p-card>
+      </div>
+    } @else if (selectedExercise) {
+      <div class="action-bar">
+        <p-button 
+          label="Aggiungi Primo Record" 
+          icon="pi pi-plus"
+          styleClass="p-button-help"
+          (click)="openAddModal()">
+        </p-button>
+      </div>
+
+      <p-card class="empty-state">
+        <div class="empty-content">
+          <i class="pi pi-chart-line empty-icon"></i>
+          <h3>Nessun Dato Disponibile</h3>
+          <p>Non ci sono ancora registrazioni per questo esercizio.</p>
+          <p>Clicca il pulsante sopra per aggiungere la prima registrazione.</p>
+        </div>
+      </p-card>
+    } @else {
+      <p-card class="empty-state">
+        <div class="empty-content">
+          <i class="pi pi-inbox empty-icon"></i>
+          <h3>Seleziona un Esercizio</h3>
+          <p>Scegli un esercizio dal menu a tendina per visualizzare i progressi.</p>
+        </div>
+      </p-card>
+    }
+  </div>
+
+  <!-- Modal Aggiungi/Modifica Record -->
+  <p-dialog 
+    [(visible)]="showModal" 
+    [header]="editingRecord ? 'Modifica Record' : 'Aggiungi Record'"
+    [modal]="true"
+    [style]="{width: '500px'}"
+    [draggable]="false"
+    [resizable]="false">
+    
+    <div class="modal-form">
+      <div class="form-field">
+        <label for="record-date">Data *</label>
+        <input 
+          type="date" 
+          id="record-date" 
+          [(ngModel)]="formData.date"
+          class="p-inputtext" />
+      </div>
+
+      <div class="form-field">
+        <label for="record-weight">Peso (kg) *</label>
+        <p-inputNumber 
+          id="record-weight"
+          [(ngModel)]="formData.weight"
+          [min]="0"
+          [step]="0.5"
+          suffix=" kg"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus">
+        </p-inputNumber>
+      </div>
+
+      <div class="form-field">
+        <label for="record-sets">Serie *</label>
+        <p-inputNumber 
+          id="record-sets"
+          [(ngModel)]="formData.sets"
+          [min]="1"
+          [max]="20"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus">
+        </p-inputNumber>
+      </div>
+
+      <div class="form-field">
+        <label for="record-reps">Ripetizioni *</label>
+        <p-inputNumber 
+          id="record-reps"
+          [(ngModel)]="formData.reps"
+          [min]="1"
+          [max]="100"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus">
+        </p-inputNumber>
+      </div>
+
+      <div class="form-field">
+        <label for="record-notes">Note</label>
+        <textarea 
+          id="record-notes"
+          [(ngModel)]="formData.notes"
+          rows="3"
+          class="p-inputtext"
+          placeholder="Aggiungi note opzionali..."></textarea>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <p-button 
+        label="Annulla" 
+        icon="pi pi-times"
+        styleClass="p-button-text"
+        (click)="closeModal()">
+      </p-button>
+      <p-button 
+        label="Salva" 
+        icon="pi pi-check"
+        styleClass="p-button-help"
+        (click)="saveRecord()">
+      </p-button>
+    </ng-template>
+  </p-dialog>
+</div>

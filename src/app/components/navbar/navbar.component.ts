@@ -24,6 +24,11 @@ export class NavbarComponent {
       label: 'Esercizi',
       icon: 'pi pi-bolt',
       command: () => this.router.navigate(['/esercizi'])
+    },
+    {
+      label: 'Progressi',
+      icon: 'pi pi-chart-line',
+      command: () => this.router.navigate(['/progressi'])
     }
   ];
 }

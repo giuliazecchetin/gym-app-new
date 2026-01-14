@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
@@ -66,11 +66,8 @@ export class ExerciseProgressPageComponent implements OnInit {
 
   private readonly STORAGE_KEY = 'gym_exercises';
   private readonly RECORDS_STORAGE_KEY = 'gym_exercise_records';
-
-  constructor(
-    private router: Router,
-    private toastService: ToastService
-  ) {}
+  private router = inject(Router);
+  private toastService = inject(ToastService);
 
   ngOnInit() {
     this.loadData();

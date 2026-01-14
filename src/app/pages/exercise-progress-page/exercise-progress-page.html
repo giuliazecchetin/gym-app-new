@@ -27,10 +27,12 @@
           (onChange)="onExerciseChange()"
           [style]="{'width': '100%'}">
           <ng-template pTemplate="selectedItem">
-            <div *ngIf="selectedExercise">
-              <strong>{{ selectedExercise.name }}</strong>
-              <span class="muscle-group"> - {{ selectedExercise.muscleGroup }}</span>
-            </div>
+            @if (selectedExercise) {
+              <div>
+                <strong>{{ selectedExercise.name }}</strong>
+                <span class="muscle-group"> - {{ selectedExercise.muscleGroup }}</span>
+              </div>
+            }
           </ng-template>
           <ng-template let-exercise pTemplate="item">
             <div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../services/toast.service';
 
@@ -9,7 +9,7 @@ import { ToastService } from '../../services/toast.service';
   template: `
     <div class="toast-container">
       @for (message of messages; track message.id) {
-        <div [class]="'toast toast-' + message.severity" [@slideIn]>
+        <div [class]="'toast toast-' + message.severity">
           <div class="toast-content">
             <div class="toast-header">
               <span class="toast-icon" [class]="'pi pi-' + getSeverityIcon(message.severity)"></span>
@@ -130,8 +130,7 @@ import { ToastService } from '../../services/toast.service';
 })
 export class ToastComponent implements OnInit {
   messages: any[] = [];
-
-  constructor(public toastService: ToastService) {}
+  toastService = inject(ToastService);
 
   ngOnInit() {
     this.toastService.messages$.subscribe(messages => {

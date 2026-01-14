@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, input, output, OnInit, inject, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -14,31 +14,34 @@ import { ToastService } from '../../services/toast.service';
   styleUrl: './workout-session-page.css'
 })
 export class WorkoutSessionPageComponent implements OnInit {
-  @Input() availableExercises: Exercise[] = [];
-  @Input() savedSessions: WorkoutSession[] = [];
-  @Input() sessionToEdit: WorkoutSession | null = null;
-  @Output() sessionSaved = new EventEmitter<WorkoutSession>();
-  @Output() sessionDeleted = new EventEmitter<number>();
-  @Output() sessionLoaded = new EventEmitter<WorkoutSession>();
-  @Output() cancelled = new EventEmitter<void>();
+  availableExercises = input<Exercise[]>([]);
+  savedSessions = input<WorkoutSession[]>([]);
+  sessionToEdit = input<WorkoutSession | null>(null);
+  sessionSaved = output<WorkoutSession>();
+  sessionDeleted = output<number>();
+  sessionLoaded = output<WorkoutSession>();
+  cancelled = output<void>();
 
   sessionName: string = '';
   selectedExercises: WorkoutSessionExercise[] = [];
   isEditingSession: boolean = false;
   editingSessionId: number | null = null;
   showPreviousSessions: boolean = false;
+  private toastService = inject(ToastService);
 
-  constructor(private toastService: ToastService) {}
-
-  ngOnInit() {
-    if (this.sessionToEdit) {
-      this.loadSessionForEditing(this.sessionToEdit);
-    }
+  constructor() {
+    effect(() => {
+      const session = this.sessionToEdit();
+      if (session && !this.isEditingSession) {
+        this.loadSessionForEditing(session);
+      }
+    });
   }
 
-  ngOnChanges() {
-    if (this.sessionToEdit && !this.isEditingSession) {
-      this.loadSessionForEditing(this.sessionToEdit);
+  ngOnInit() {
+    const session = this.sessionToEdit();
+    if (session) {
+      this.loadSessionForEditing(session);
     }
   }
 

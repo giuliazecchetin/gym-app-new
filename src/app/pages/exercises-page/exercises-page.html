@@ -2,7 +2,7 @@
   <!-- Filtro Gruppo Muscolare -->
   <div class="filter-container">
     <label for="muscleGroupFilter">Filtra per gruppo muscolare:</label>
-    <select id="muscleGroupFilter" [ngModel]="selectedMuscleGroup" (ngModelChange)="onMuscleGroupChange($event)" class="filter-select">
+    <select id="muscleGroupFilter" [ngModel]="selectedMuscleGroup()" (ngModelChange)="onMuscleGroupChange($event)" class="filter-select">
       @for (group of uniqueMuscleGroups; track group) {
         <option [value]="group">{{ group }}</option>
       }

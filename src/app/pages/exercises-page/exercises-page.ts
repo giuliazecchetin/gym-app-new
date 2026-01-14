@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Exercise } from '../../models/exercise';
@@ -12,21 +12,23 @@ import { ExerciseListComponent } from '../../components/exercise-list/exercise-l
   styleUrl: './exercises-page.css'
 })
 export class ExercisesPageComponent {
-  @Input() exercises: Exercise[] = [];
-  @Input() selectedMuscleGroup: string = 'Tutti';
-  @Output() selectedMuscleGroupChange = new EventEmitter<string>();
-  @Output() edit = new EventEmitter<number>();
-  @Output() delete = new EventEmitter<number>();
+  exercises = input<Exercise[]>([]);
+  selectedMuscleGroup = input<string>('Tutti');
+  selectedMuscleGroupChange = output<string>();
+  edit = output<number>();
+  delete = output<number>();
 
   get filteredExercises(): Exercise[] {
-    if (this.selectedMuscleGroup === 'Tutti') {
-      return this.exercises;
+    if (this.selectedMuscleGroup() === 'Tutti') {
+      return this.exercises();
     }
-    return this.exercises.filter(ex => ex.muscleGroup.toLowerCase() === this.selectedMuscleGroup.toLowerCase());
+    return this.exercises().filter(ex => 
+      ex.muscleGroup.toLowerCase() === this.selectedMuscleGroup().toLowerCase()
+    );
   }
 
   get uniqueMuscleGroups(): string[] {
-    const groups = new Set(this.exercises.map(ex => ex.muscleGroup));
+    const groups = new Set(this.exercises().map(ex => ex.muscleGroup));
     return ['Tutti', ...Array.from(groups).sort()];
   }
 

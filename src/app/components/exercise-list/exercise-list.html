@@ -1,4 +1,4 @@
-@for (item of exercises; track item.id) {
+@for (item of exercises(); track item.id) {
 <div class="exercise-card">
   <h2> {{ item.name }} </h2>
   <p><strong><svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="9"/></svg> Gruppo muscolare:</strong> {{ item.muscleGroup }}</p>

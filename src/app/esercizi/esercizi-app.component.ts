@@ -34,7 +34,7 @@ import { ToastService } from '../services/toast.service';
 export class EserciziAppComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  constructor(private toastService: ToastService) {}
+  private toastService = inject(ToastService);
   
   private readonly STORAGE_KEY = 'gym_exercises';
   private readonly SESSION_STORAGE_KEY = 'gym_sessions';

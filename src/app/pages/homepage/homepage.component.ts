@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -12,7 +12,7 @@ import { CarouselModule } from 'primeng/carousel';
   styleUrl: './homepage.component.css'
 })
 export class HomepageComponent {
-  constructor(private router: Router) {}
+  private router = inject(Router);
   features = [
     {
       icon: 'pi pi-list',

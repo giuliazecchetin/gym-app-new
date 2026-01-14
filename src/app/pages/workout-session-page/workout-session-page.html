@@ -23,7 +23,7 @@
     <div class="exercises-selector">
       <h3>Seleziona Esercizi</h3>
       <div class="available-exercises">
-        @for (exercise of availableExercises; track exercise.id) {
+        @for (exercise of availableExercises(); track exercise.id) {
           <div class="exercise-item">
             <input 
               type="checkbox" 
@@ -104,17 +104,17 @@
   </div>
 
   <!-- Lista Sessioni Salvate -->
-  @if (savedSessions.length > 0) {
+  @if (savedSessions().length > 0) {
     <div class="saved-sessions">
       <div class="sessions-header" (click)="togglePreviousSessions()" style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
-        <h3>Sessioni Precedenti ({{ savedSessions.length }})</h3>
+        <h3>Sessioni Precedenti ({{ savedSessions().length }})</h3>
         <p-button [icon]="showPreviousSessions ? 'pi pi-chevron-up' : 'pi pi-chevron-down'" 
                   [text]="true" 
                   severity="secondary"
                   (click)="togglePreviousSessions(); $event.stopPropagation()"></p-button>
       </div>
       @if (showPreviousSessions) {
-        @for (session of savedSessions; track session.id) {
+        @for (session of savedSessions(); track session.id) {
         <div class="session-card">
           <h4>{{ session.name }}</h4>
           <p class="session-date">{{ session.date | date: 'dd/MM/yyyy HH:mm' }}</p>

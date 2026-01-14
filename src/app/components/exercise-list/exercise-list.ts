@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { Exercise } from '../../models/exercise';
@@ -11,7 +11,7 @@ import { Exercise } from '../../models/exercise';
   styleUrl: './exercise-list.css'
 })
 export class ExerciseListComponent {
-  @Input() exercises: Exercise[] = [];
-  @Output() edit = new EventEmitter<number>();
-  @Output() delete = new EventEmitter<number>();
+  exercises = input<Exercise[]>([]);
+  edit = output<number>();
+  delete = output<number>();
 }
